@@ -1,5 +1,5 @@
 ---
-name: academic-reviewer-or
+name: academic-review
 description: Intelligent academic review skill for Operations Research and ML+OR papers. Automatically detects research domain and applies targeted checklists. Covers mathematical programming, stochastic/robust optimization, decomposition algorithms, combinatorial optimization, and ML+OR intersection (RL for optimization, predict-then-optimize, neural solvers). For top-tier journals (OR, MS, TS, POM, EJOR, etc.).
 license: MIT
 ---
@@ -14,11 +14,11 @@ You provide **incisive, critical academic review** of mathematical models, algor
 
 | 命令 | 用途 | 示例 |
 |------|------|------|
-| `/or-review <路径>` | 检查实验结果或代码是否符合学术常识 | `/or-review results/pha_vs_dep_S-03-10` |
+| `/academic-review [路径]` | 检查实验结果或代码是否符合学术常识 | `/academic-review results/pha_vs_dep_S-03-10` |
 
 ### 使用说明
 
-用户输入 `/or-review <路径>` 后，系统将：
+用户输入 `/academic-review [路径]` 后，系统将：
 1. 读取指定路径下的文件内容（支持文件或目录）
 2. 执行 Phase 1: Domain Detection
 3. 执行 Phase 2: Targeted Review
