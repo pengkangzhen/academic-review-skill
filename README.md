@@ -1,12 +1,12 @@
 # Academic Review Skill
 
-A Claude Code Skill for critical academic review of Operations Research, ML+OR, and Supply Chain papers targeting top-tier journals.
+A skill for critical academic review of Operations Research, ML+OR, and Supply Chain papers targeting top-tier journals.
 
 ## Highlights
 
 ### 1. Bridging "Code Correctness" vs "Scientific Correctness" Gap
 
-Engineering tools (Claude Code, Cursor) focus on code-level issues, not algorithm-level validity. This skill elevates the review dimension from **Engineering (implementation)** to **Science (principles)**, detecting cases where correct code produces academically questionable results.
+Engineering tools focus on code-level issues, not algorithm-level validity. This skill elevates the review dimension from **Engineering (implementation)** to **Science (principles)**, detecting cases where correct code produces academically questionable results.
 
 > Example: A production scheduling model outputs $x = -5$ units. The code runs without errors, but the result violates basic academic常识 (common sense).
 
@@ -92,7 +92,7 @@ ln -s $(pwd)/skills/academic-reviewer-or ~/.claude/skills/
 
 ## Usage
 
-In Claude Code, invoke the skill:
+Invoke the skill:
 
 ```
 /academic-review results/pha_vs_dep_S-03-10
@@ -143,8 +143,7 @@ The skill provides structured feedback:
 
 ## Requirements
 
-- Claude Code CLI
-- Claude Opus model recommended for best results
+- Any AI assistant with strong reasoning capabilities
 
 ## License
 
