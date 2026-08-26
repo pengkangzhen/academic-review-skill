@@ -1,154 +1,85 @@
-# Academic Review Skill
+# Academic Paper-Writing Skills
 
-A skill for critical academic review of Operations Research, ML+OR, and Supply Chain papers targeting top-tier journals.
+A bundle of four complementary skills for the full paper-writing pipeline of Operations Research, ML+OR, and Supply Chain research — from reviewing experimental results for scientific merit, to polishing LaTeX prose, to auditing terminology, to responding to reviewers.
 
-## Highlights
+## Skills and Their Boundaries
 
-### 1. Bridging "Code Correctness" vs "Scientific Correctness" Gap
+Each skill owns one review dimension; together they cover what a top-journal reviewer (or copy editor) would flag. Skill names are ASCII kebab-case (required for slash commands); the Chinese aliases live in each skill's description, so saying "科学审稿 / 润色 / 黑话检查 / 审稿回复" in conversation triggers the right one without a slash command:
 
-Engineering tools focus on code-level issues, not algorithm-level validity. This skill elevates the review dimension from **Engineering (implementation)** to **Science (principles)**, detecting cases where correct code produces academically questionable results.
+| Skill | 中文别名 | Dimension | What it checks |
+|-------|---------|-----------|----------------|
+| **scientific-review** | 科学审稿 | Scientific merit | Model validity, algorithmic contribution, experimental rigor, domain-specific conventions (VSS, EVPI, convergence...) |
+| **language-polish** | 语言润色 | Text quality | Grammar, word choice, sentence structure, logic flow, academic tone — while preserving all LaTeX markup |
+| **jargon-check** | 黑话检查 | Terminology & register | Tool-introduced shorthand, buzzwords, wording that drifts from the paper's own terminology or academic register |
+| **rebuttal** | 审稿回复 | Revision execution | Point-by-point reviewer comment processing: propose changes, apply markup edits, compile PDFs, update the response letter |
 
-> Example: A production scheduling model outputs $x = -5$ units. The code runs without errors, but the result violates basic academic常识 (common sense).
+The split is deliberate: `scientific-review` does **not** judge prose quality, and `language-polish` does **not** judge scientific content. Run them independently on the same manuscript to get both dimensions covered.
 
-### 2. Dynamic Context-Aware Domain Detection
+## scientific-review
 
-Generic review prompts are often too broad and lack specificity. This skill automatically scans project code and paper drafts to identify OR/Management Science sub-domains, enabling targeted and precise review recommendations.
+Critical review of OR/ML+OR papers and experimental results targeting top-tier journals (OR, MS, TS, POM, EJOR, IJOC).
 
-**Supported Domains:**
-- Mathematical Programming (LP, MIP, NLP)
-- Stochastic/Robust Optimization
-- Decomposition Algorithms (Benders, PHA, ADMM)
-- Network/Combinatorial Optimization (VRP, TSP)
-- ML+OR Intersection (RL for optimization, Predict-then-Optimize)
+**Key mechanisms:**
 
-### 3. Adversarial Review Mechanism
-
-Internal dialogue between two agents ensures robust conclusions:
-
-| Role | Responsibility |
-|------|----------------|
-| **Author Agent** | Defends results, explains academic rationale |
-| **Reviewer Agent** | Challenges assumptions, identifies potential flaws |
-
-This mechanism protects counter-intuitive innovations while identifying genuine issues.
-
-### 4. Closed-Loop Agentic Workflow
-
-Reviews experimental results against academic conventions and outputs actionable recommendations executable by downstream agents:
+- **Science vs. engineering review.** Elevates the review dimension from implementation correctness to academic validity — catching cases where correct code produces academically questionable results (e.g., a scheduling model outputting $x = -5$ units, or a VSS of 0.01% that undermines the stochastic model's value).
+- **Domain detection.** Scans code and drafts to classify the sub-domain (mathematical programming, stochastic/robust optimization, decomposition algorithms, combinatorial optimization, ML+OR), then applies targeted checklists.
+- **Adversarial review.** A strict three-round dialogue — Reviewer challenges, Author defends on academic evidence, Judge rules (Resolved / Query Remains / Critical Issue). This protects counter-intuitive innovations while confirming genuine flaws.
 
 ```
-Input: Experimental results / Paper draft
-  ↓
-Phase 1: Domain Detection
-  ↓
-Phase 2: Targeted Review (Checklist-based)
-  ↓
-Phase 3: Adversarial Review (Multi-perspective)
-  ↓
-Output: Structured review + Action items
+/scientific-review <path-to-results-or-draft>
 ```
 
-### 5. Slash Command Integration
+## language-polish
 
-Simple invocation:
+Academic English editing for LaTeX manuscripts in OR/ML. Polishes grammar, word choice, sentence structure, logic flow, and academic tone while preserving all LaTeX markup (`\cite`, `\label`, math, comments untouched).
+
+Trigger phrases: "polish this section", "check my English", "make it more academic", "improve the writing".
 
 ```
-/academic-review <path-to-results>
+/language-polish <selected text or .tex file>
 ```
 
-## Target Journals
+## jargon-check
 
-- Operations Research (OR)
-- Management Science (MS)
-- Transportation Science (TS)
-- Production and Operations Management (POM)
-- European Journal of Operational Research (EJOR)
-- INFORMS Journal on Computing (IJOC)
-- Similar top-tier OR/ML+OR venues
+Audits prose for wording that sounds like it came from a coding assistant, CLI summary, or ad hoc explanation rather than a polished paper. Its goal is **paper alignment**: reusing the paper's own method names and terminology, keeping a consistent academic register across sections and response letters.
+
+Trigger phrases: "检查学术黑话", "这句不像论文", "贴合论文术语", "术语要统一", "is this wording too buzzword-heavy?".
+
+```
+/jargon-check <text or phrase in question>
+```
+
+## rebuttal
+
+Point-by-point rebuttal agent for the revision round. It auto-locates the response letter and manuscript, then processes reviewer comments one at a time: analyze the concern → propose a modification plan (location, ADD/MODIFY/DELETE, Before→After) → **wait for user confirmation** → apply `\changed{}`/`\deleted{}` markup edits → compile both PDFs → update the response letter with professional tone templates → mark `[COMPLETED]` and move on.
+
+Trigger phrases: "回复审稿意见", "逐条回应审稿人", "rebuttal", "response letter".
+
+```
+/rebuttal
+```
 
 ## Installation
 
-### Method 1: Manual Installation
+Clone the repository and run the installer, which symlinks all four skills into `~/.agents/skills/` (created if missing):
 
 ```bash
-# Create skills directory if not exists
-mkdir -p ~/.claude/skills/academic-review-skill
-
-# Copy the SKILL.md file
-cp skills/academic-reviewer-or/SKILL.md ~/.claude/skills/academic-review-skill/
+git clone https://github.com/pengkangzhen/academic-writing-toolkit.git
+cd academic-writing-toolkit
+./install.sh
 ```
 
-### Method 2: Clone and Link
+The installer is idempotent — re-running updates stale links and never overwrites a real directory. To install manually:
 
 ```bash
-# Clone the repository
-git clone https://github.com/pengkangzhen/academic-review-skill.git
-cd academic-review-skill
-
-# Create symbolic link
-mkdir -p ~/.claude/skills
-ln -s $(pwd)/skills/academic-reviewer-or ~/.claude/skills/
+ln -s "$(pwd)/skills/scientific-review" ~/.agents/skills/scientific-review
+ln -s "$(pwd)/skills/language-polish" ~/.agents/skills/language-polish
+ln -s "$(pwd)/skills/jargon-check" ~/.agents/skills/jargon-check
+ln -s "$(pwd)/skills/rebuttal" ~/.agents/skills/rebuttal
 ```
 
-## Usage
-
-Invoke the skill:
-
-```
-/academic-review results/pha_vs_dep_S-03-10
-```
-
-Then provide your code, model, or experimental results for review.
-
-### Example
-
-```
-/academic-review ./experiments/stochastic_optimization/
-
-I've implemented a Progressive Hedging Algorithm variant with adaptive penalty updates.
-Here are my convergence results comparing to standard PHA...
-```
-
-## Review Output
-
-The skill provides structured feedback:
-
-- **Domain Detection Results** - Identified research area with evidence
-- **Overall Assessment** - Publication potential (Strong/Acceptable/Weak/Reject)
-- **Adversarial Review Dialogues** - Author/Reviewer debates on key issues
-- **Critical Issues** - Must address before submission
-- **Moderate Issues** - Should address for stronger paper
-- **Minor Issues** - Polish suggestions
-- **Recommendations** - Concrete next steps
-
-## Specialized Checks
-
-### For Stochastic Programming
-- VSS (Value of Stochastic Solution) analysis
-- EVPI (Expected Value of Perfect Information)
-- Scenario generation methodology
-- Solution stability tests
-
-### For Decomposition Algorithms (PHA, Benders, etc.)
-- Penalty parameter justification
-- Convergence criteria
-- Comparison against DEP (Deterministic Equivalent Problem)
-- Primal/dual residual tracking
-
-### For ML+OR Intersection
-- Training/validation/test split design
-- Reward function alignment (RL)
-- Smart Predict-then-Optimize (SPO) loss
-- Generalization to unseen instances
-
-## Requirements
-
-- Any AI assistant with strong reasoning capabilities
+Adjust the target directory if your assistant reads skills from elsewhere (e.g., `~/.claude/skills/`).
 
 ## License
 
 MIT License - see [LICENSE](LICENSE)
-
-## Contributing
-
-Issues and pull requests welcome!

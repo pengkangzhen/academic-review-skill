@@ -1,0 +1,23 @@
+{
+  "skill_name": "jargon-check",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Check paper/manuscript/elsarticle-template-num-names.tex L315-L316. Tell me whether any phrase sounds like AI/CLI-style shorthand rather than paper language, and rewrite it while preserving LaTeX.",
+      "expected_output": "Flags non-paper-like or undefined terms and rewrites the passage using manuscript-consistent academic wording.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Audit paper/review/response_letter.tex L45-L50. Make the terminology consistent with the manuscript and remove any tool-style shorthand or academic blackwording.",
+      "expected_output": "Identifies response-letter wording that no longer matches the manuscript and rewrites it with aligned terminology.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Is 'backtracking chain' appropriate in a reviewer response, or does it sound like non-academic shorthand? Give a verdict and better alternatives.",
+      "expected_output": "Returns a short verdict, explains the register/terminology issue, and proposes paper-appropriate alternatives.",
+      "files": []
+    }
+  ]
+}
